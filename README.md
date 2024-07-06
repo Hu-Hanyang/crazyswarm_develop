@@ -79,4 +79,8 @@ Make sure your virtual environment is activated each time you use cfclient.
 Please follow the [instructions](https://crazyswarm.readthedocs.io/en/latest/).
 </details>
 
+<details>
+<summary>Crazyflie Neural Network Controller Integration</summary>
+
+</details>
 

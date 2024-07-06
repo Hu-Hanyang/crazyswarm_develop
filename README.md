@@ -80,7 +80,89 @@ Please follow the [instructions](https://crazyswarm.readthedocs.io/en/latest/).
 </details>
 
 <details>
-<summary>Crazyflie Neural Network Controller Integration</summary>
+<summary>Running a Real World Test Script on Crazyflie 2.1 Using Crazyswarm with Vicon system</summary>
+Problem: Vicon tracker 3.10 requires at least three markers to create an object. single marker cannot be set (unsolve).
+</details>
+
+<details>
+<summary>Crazyflie Custom Neural Network Controller Integration (Write and Flash)</summary>
+  
+#### Prerequisites
+
+- Crazyflie 2.1
+- A pre-trained neural network model saved as `model_latest.pt` which contains all the necessary neural network data in a dict format.
+
+#### Steps
+
+1. **Write a script (`convert.py`) to load the neural network model dictionary and convert the parameters into C arrays, then write them into `model_parameters.c` file:**
+
+    ```python
+    import torch
+    
+    def tensor_to_c_array(tensor, name):
+        array = tensor.cpu().numpy()  # Ensure the tensor is processed on CPU
+        c_array = ""
+        if len(array.shape) == 2:
+            shape_str = f"[{array.shape[0]}][{array.shape[1]}]"
+            c_array = f"static const float {name}{shape_str} = {{\n"
+            for row in array:
+                c_array += "    {" + ', '.join(map(str, row)) + "},\n"
+            c_array += "};\n"
+        elif len(array.shape) == 1:
+            shape_str = f"[{array.shape[0]}]"
+            c_array = f"static const float {name}{shape_str} = {{"
+            c_array += ', '.join(map(str, array))
+            c_array += "};\n"
+        return c_array
+    
+    def recursive_convert(name, param, c_arrays):
+        if isinstance(param, torch.Tensor):  # Check if the parameter is a tensor
+            c_name = name.replace('.', '_')
+            c_arrays.append(tensor_to_c_array(param, c_name))
+        elif isinstance(param, dict):  # If it's a dictionary, process recursively
+            for sub_name, sub_param in param.items():
+                recursive_convert(f"{name}.{sub_name}", sub_param, c_arrays)
+    
+    # Load the model's state dictionary
+    model_state_dict = torch.load('model_latest.pt', map_location=torch.device('cpu'))
+    
+    # Convert each parameter to C arrays
+    c_arrays = []
+    for name, param in model_state_dict.items():
+        recursive_convert(name, param, c_arrays)
+    
+    # Write all C arrays to a file
+    with open('model_parameters.c', 'w') as f:
+        for c_array in c_arrays:
+            if c_array:  # Write to file only if c_array is not empty
+                f.write(c_array + '\n')
+
+    ```
+
+2. **In `model_parameters.c`, extracting the weights and biases for the policy neural network layers:**
+
+    ```c
+    // Example of the generated C arrays for the policy layer
+    static const float agent_ac_actor_pi_net_fcs_0_weight[64][17] = {...}
+    static const float agent_ac_actor_pi_net_fcs_0_bias[64] = {...}
+
+    // other layers
+    ```
+#### Todo:
+
+1. Set as default controller
+2. Compile firmware
+3. Flash firmware
+4. Verification and testing
+
+
+#### Can use for reference:
+
+[GitHub - mahaitongdae/crazyflie-firmware at dev-nn](https://github.com/mahaitongdae/crazyflie-firmware/tree/dev-nn)
+
+At src/modules/src/controller
+
+
 
 </details>
 

@@ -151,6 +151,9 @@ Problem: Vicon tracker 3.10 requires at least three markers to create an object.
    * the hello_world.py is located in ros_ws/src/crazyswarm/script/
   
    ** Note:
+
+             1. Before running hello_world.py scripts, we need to deactivate Conda or any other environments manager.
+             2. Depending on library updating, some syntax of code needs to be changed.
   
    
 </details>

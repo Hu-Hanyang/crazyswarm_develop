@@ -77,11 +77,81 @@ Make sure your virtual environment is activated each time you use cfclient.
 <details>
 <summary>Crazyswarm Installation</summary>
 Please follow the [instructions](https://crazyswarm.readthedocs.io/en/latest/).
+  
+From Changelog section to Overview section.
 </details>
 
 <details>
 <summary>Running a Real World Test Script on Crazyflie 2.1 Using Crazyswarm with Vicon system</summary>
-Problem: Vicon tracker 3.10 requires at least three markers to create an object. single marker cannot be set (unsolve).
+Problem: Vicon tracker 3.10 requires at least three markers to create an object. single marker cannot be set (solved).
+  
+#### Prerequisites
+- Crazyflie 2.1
+- Crazyswarm
+- Vicon Tracker 3.10
+- 4 Markers
+- There are conflicts between ros and conda environment, do not use conda.
+
+
+#### Steps
+
+1. **Add Crazyflie object to Vicon tracking system:**
+
+   Attach the four markers to the appropriate position on the Crazyflie 2.1.
+   
+   Open Vicon System.
+   
+   Open Vicon Tracker 3.10 in computer.
+   
+   Select 4 marker points on Crazyflie 2.1 and use these points to creat an object, named cf1.
+
+2. **Follow Crazyswarm instructions on [Configuration](https://crazyswarm.readthedocs.io/en/latest/configuration.html):**
+
+   Here we choose Vicon as tracking system and Unique Marker Arrangements as object tracking mode.
+
+   Do not do the Update firmware and Manage fleet with the Chooser part.
+
+4. **Turn on Crazyflie 2.1 and ready for connection:**
+
+5. **Run Hovering (hello, world):**
+
+   4.1 Run the test script in simulation mode to make sure your Python interpreter is set up correctly:
+   ```python
+    python hello_world.py --sim
+   ```
+   In the 3D visualization, you should see a Crazyflie take off, hover for a few seconds, and then land.
+
+   4.2 Start Ros:
+
+   Open a new terminal and run
+   
+   ```python
+    roscore
+   ```
+
+   4.3 Start the crazyswarm_server:
+   ```python
+    source ros_ws/devel/setup.bash
+    roslaunch crazyswarm hover_swarm.launch
+   ```
+
+   You should see the Crazyflie 2.1 connect with laptop, there should be one light on Crazyflie 2.1 shows green and the radio device attached to the laptop will also show green light.
+
+   A software rviz in laptop will launch and show the estimated pose of cf1.
+
+   4.4 Run hello_world.py script in real world:
+
+   Open a new terminal and run
+  
+   ```python
+    source devel/setup.bash
+    python hello_world.py
+   ```
+   * the hello_world.py is located in ros_ws/src/crazyswarm/script/
+  
+   ** Note:
+  
+   
 </details>
 
 <details>

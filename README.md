@@ -84,35 +84,46 @@ From Changelog section to Overview section.
 <details>
 <summary>Running a Real World Test Script on Crazyflie 2.1 Using Crazyswarm with Vicon system</summary>
   
-Problem: Vicon tracker 3.10 requires at least three markers to create an object. single marker cannot be set (solved).
-  
 #### Prerequisites
 - Crazyflie 2.1
 - Crazyswarm
 - Vicon Tracker 3.10
-- 4 Markers
+- Single Marker
 - There are conflicts between ros and conda environment, do not use conda.
 
 
 #### Steps
 
-1. **Add Crazyflie object to Vicon tracking system:**
+1. **Connect both laptop and lab computer to same WIFI:**
 
-   Attach the four markers to the appropriate position on the Crazyflie 2.1.
+2. **Add Crazyflie object to Vicon tracking system:**
+
+   Attach the single marker to the appropriate position on the Crazyflie 2.1.
    
    Open Vicon System.
    
    Open Vicon Tracker 3.10 in computer.
    
-   Select 4 marker points on Crazyflie 2.1 and use these points to creat an object, named cf1.
+   You can check that single marker as a point in the vicon system.
 
 2. **Follow Crazyswarm instructions on [Configuration](https://crazyswarm.readthedocs.io/en/latest/configuration.html):**
 
-   Here we choose Vicon as tracking system and Unique Marker Arrangements as object tracking mode.
+   Here we choose Vicon as tracking system and Single Marker as object tracking mode.
 
-   Do not do the Update firmware and Manage fleet with the Chooser part.
+   For Enumerate Crazyflies section, modify crazyflies.yaml with following parameters:
+   
+   ```
+   # ros_ws/src/crazyswarm/launch/crazyflies.yaml
+   crazyflies:
+   - id: 1
+    channel: 100
+    initialPosition: [-2.26499, -1.61604, 0.032]
+    type: CF21SingleMarker
+   ```
 
-4. **Turn on Crazyflie 2.1 and ready for connection:**
+   Do not do the Update firmware and Manage fleet with the Chooser sections.
+
+4. **Turn on Crazyflie 2.1, ready for connection:**
 
 5. **Run Hovering (hello, world):**
 

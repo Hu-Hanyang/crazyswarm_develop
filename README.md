@@ -248,7 +248,10 @@ From Changelog section to Overview section.
 At src/modules/src/controller
 
 https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/building-and-flashing/build/
+
 https://blog.csdn.net/zeye5731/article/details/109293157
+
+https://www.bitcraze.io/2023/02/adding-an-estimator-or-controller/
 
 </details>
 

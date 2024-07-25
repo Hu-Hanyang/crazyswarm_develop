@@ -224,7 +224,7 @@ From Changelog section to Overview section.
 
     ```
 
-2. **In `model_parameters.c`, extracting the weights and biases for the policy neural network layers:**
+2. **In `model_parameters.c`, extracting the weights and biases for the policy neural network layers: (Not finished)**  
 
     ```c
     // Example of the generated C arrays for the policy layer
@@ -234,7 +234,9 @@ From Changelog section to Overview section.
     // other layers
     ```
 
-3. ** Define customized controller into our crazyfliefirmware controller menu:**
+3. ** Define customized controller into crazyflie firmware:**
+
+   add you own controller:
     ```c
     static ControllerFcns controllerFunctions[] = {
     {.init = 0, .test = 0, .update = 0, .name = "None"}, // Any
@@ -242,11 +244,12 @@ From Changelog section to Overview section.
     {.init = controllerMellingerFirmwareInit, .test = controllerMellingerFirmwareTest, .update = controllerMellingerFirmware, .name = "Mellinger"},
     {.init = controllerINDIInit, .test = controllerINDITest, .update = controllerINDI, .name = "INDI"},
     {.init = controllerBrescianiniInit, .test = controllerBrescianiniTest, .update = controllerBrescianini, .name = "Brescianini"},
+    ## custom nn contorller
+    {.init = controllerNNInit, .test = controllerNNTest, .update = controllerNN, .name="NN"}
     #ifdef CONFIG_CONTROLLER_OOT
     {.init = controllerOutOfTreeInit, .test = controllerOutOfTreeTest, .update = controllerOutOfTree, .name = "OutOfTree"},
     #endif
   };
-    ## controller/controller.c
     ```
 
 4. ** Flashing into crazyflie with crazyradio:**

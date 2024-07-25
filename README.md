@@ -236,7 +236,7 @@ From Changelog section to Overview section.
 
 3. ** Define customized controller into crazyflie firmware:**
 
-   add you own controller:
+   add you own controller, located at src/modules/src/controller/controller.c:
     ```c
     static ControllerFcns controllerFunctions[] = {
     {.init = 0, .test = 0, .update = 0, .name = "None"}, // Any
@@ -252,28 +252,35 @@ From Changelog section to Overview section.
   };
     ```
 
-4. ** Flashing into crazyflie with crazyradio:**
+4. ** Build crazyflie firmware and Flash into crazyflie with crazyradio:**
    
     Ⅰ. Turn off crazyflie
    
-    Ⅱ. Press start button for 3 seconds, the blue light will flash
+    Ⅱ. Start the Crazyflie in bootloader mode by pressing the power button for 3 seconds, both the blue light will flash.
    
-    Ⅲ. Open a terminal to flash:
+    Ⅲ. Open a terminal to build and flash:
    
     ```bash
     cd crazyflie-firmware
+    # build
     make -j8
+    # flash
     make cload
     ```
   
-    After flashing, restart crazyflie, connect to cfclient, open 'parameters' tab, select 'stabilizer', select sub-parameter 'controller', set 'current value' in to 5 or higher(where the order you put your controller on menu). 
+    After flashing, restart crazyflie, connect to cfclient. 
+
+    Open 'parameters' and 'console' tab, select 'stabilizer', select sub-parameter 'controller'.
+
+    Set 'current value' in to 5 or higher(where the order you put your controller on menu). 
+
     Cfclient console will print out "CONTROLLER: Using $(name) controller.", switch controller successfully.
    
 #### Todo:
 
-1. Build customized controller into crazyflie-firmware
+1. Build customized controller in crazyflie-firmware
 1. ~~Method to set as default controller~~
-2. ~~Method to compile firmware~~
+2. ~~Method to build firmware~~
 3. ~~Method to flash firmware~~
 4. Verification and testing
 

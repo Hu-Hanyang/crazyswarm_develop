@@ -289,13 +289,11 @@ From Changelog section to Overview section.
 
 [GitHub - mahaitongdae/crazyflie-firmware at dev-nn](https://github.com/mahaitongdae/crazyflie-firmware/tree/dev-nn)
 
-At src/modules/src/controller
+[build and flash](https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/building-and-flashing/build/)
 
-https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/building-and-flashing/build/
+[flash in crazyswarm](https://blog.csdn.net/zeye5731/article/details/109293157)
 
-https://blog.csdn.net/zeye5731/article/details/109293157
-
-https://www.bitcraze.io/2023/02/adding-an-estimator-or-controller/
+[bicrazy official add controller and estimator](https://www.bitcraze.io/2023/02/adding-an-estimator-or-controller/)
 
 </details>
 

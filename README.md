@@ -250,9 +250,13 @@ From Changelog section to Overview section.
     ```
 
 4. ** Flashing into crazyflie with crazyradio:**
+   
     Ⅰ. Turn off crazyflie
+   
     Ⅱ. Press start button for 3 seconds, the blue light will flash
+   
     Ⅲ. Open a terminal to flash:
+   
     ```bash
     cd crazyflie-firmware
     make -j8

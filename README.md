@@ -235,32 +235,32 @@ From Changelog section to Overview section.
     ```
 
 3. ** Define customized controller into our crazyfliefirmware controller menu:**
-  ```c
-  static ControllerFcns controllerFunctions[] = {
-  {.init = 0, .test = 0, .update = 0, .name = "None"}, // Any
-  {.init = controllerPidInit, .test = controllerPidTest, .update = controllerPid, .name = "PID"},
-  {.init = controllerMellingerFirmwareInit, .test = controllerMellingerFirmwareTest, .update = controllerMellingerFirmware, .name = "Mellinger"},
-  {.init = controllerINDIInit, .test = controllerINDITest, .update = controllerINDI, .name = "INDI"},
-  {.init = controllerBrescianiniInit, .test = controllerBrescianiniTest, .update = controllerBrescianini, .name = "Brescianini"},
-  #ifdef CONFIG_CONTROLLER_OOT
-  {.init = controllerOutOfTreeInit, .test = controllerOutOfTreeTest, .update = controllerOutOfTree, .name = "OutOfTree"},
-  #endif
-};
-  ## controller/controller.c
-  ```
+    ```c
+    static ControllerFcns controllerFunctions[] = {
+    {.init = 0, .test = 0, .update = 0, .name = "None"}, // Any
+    {.init = controllerPidInit, .test = controllerPidTest, .update = controllerPid, .name = "PID"},
+    {.init = controllerMellingerFirmwareInit, .test = controllerMellingerFirmwareTest, .update = controllerMellingerFirmware, .name = "Mellinger"},
+    {.init = controllerINDIInit, .test = controllerINDITest, .update = controllerINDI, .name = "INDI"},
+    {.init = controllerBrescianiniInit, .test = controllerBrescianiniTest, .update = controllerBrescianini, .name = "Brescianini"},
+    #ifdef CONFIG_CONTROLLER_OOT
+    {.init = controllerOutOfTreeInit, .test = controllerOutOfTreeTest, .update = controllerOutOfTree, .name = "OutOfTree"},
+    #endif
+  };
+    ## controller/controller.c
+    ```
 
 4. ** Flashing into crazyflie with crazyradio:**
-  Ⅰ. Turn off crazyflie
-  Ⅱ. Press start button for 3 seconds, the blue light will flash
-  Ⅲ. Open a terminal to flash:
-  ```bash
-  cd crazyflie-firmware
-  make -j8
-  make cload
-  ```
-
-  After flashing, restart crazyflie, connect to cfclient, open 'parameters' tab, select 'stabilizer', select sub-parameter 'controller', set 'current value' in to 5 or higher(where the order you put your controller on menu). 
-  Cfclient console will print out "CONTROLLER: Using $(name) controller.", switch controller successfully.
+    Ⅰ. Turn off crazyflie
+    Ⅱ. Press start button for 3 seconds, the blue light will flash
+    Ⅲ. Open a terminal to flash:
+    ```bash
+    cd crazyflie-firmware
+    make -j8
+    make cload
+    ```
+  
+    After flashing, restart crazyflie, connect to cfclient, open 'parameters' tab, select 'stabilizer', select sub-parameter 'controller', set 'current value' in to 5 or higher(where the order you put your controller on menu). 
+    Cfclient console will print out "CONTROLLER: Using $(name) controller.", switch controller successfully.
    
 #### Todo:
 

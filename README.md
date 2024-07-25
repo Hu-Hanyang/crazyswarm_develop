@@ -268,9 +268,10 @@ From Changelog section to Overview section.
    
 #### Todo:
 
-1. Set as default controller
-2. Compile firmware
-3. Flash firmware
+1. Build customized controller into crazyflie-firmware
+1. ~~Method to set as default controller~~
+2. ~~Method to compile firmware~~
+3. ~~Method to flash firmware~~
 4. Verification and testing
 
 

@@ -134,13 +134,13 @@ From Changelog section to Overview section.
 
 5. **Run Hovering (hello, world):**
 
-   4.1 Run the test script in simulation mode to make sure your Python interpreter is set up correctly:
+   5.1 Run the test script in simulation mode to make sure your Python interpreter is set up correctly:
    ```python
     python hello_world.py --sim
    ```
    In the 3D visualization, you should see a Crazyflie take off, hover for a few seconds, and then land.
 
-   4.2 Start Ros:
+   5.2 Start Ros:
 
    Open a new terminal and run
    
@@ -148,7 +148,10 @@ From Changelog section to Overview section.
     roscore
    ```
 
-   4.3 Start the crazyswarm_server:
+   5.3 Start the crazyswarm_server:
+
+   Go to /crazyswarm/ 
+   
    ```python
     source ros_ws/devel/setup.bash
     roslaunch crazyswarm hover_swarm.launch
@@ -156,17 +159,21 @@ From Changelog section to Overview section.
 
    You should see the Crazyflie 2.1 connect with laptop, there should be one light on Crazyflie 2.1 shows green and the radio device attached to the laptop will also show green light.
 
-   A software rviz in laptop will launch and show the estimated pose of cf1.
+   A software rviz in laptop will launch and show the estimated pose of cf1 ( make sure to see estimated pose of cf1 to move to next step).
 
    4.4 Run hello_world.py script in real world:
 
-   Open a new terminal and run
+   Open a new terminal, go to /crazyswarm/ros_ws and run
   
    ```python
     source devel/setup.bash
+   ```
+
+   Then go to /crazyswarm/ros_ws/src/crazyswarm/scripts and run
+   
+   ```python
     python hello_world.py
    ```
-   * the hello_world.py is located in ros_ws/src/crazyswarm/script/
   
    ** Note:
 

@@ -184,12 +184,13 @@ From Changelog section to Overview section.
 </details>
 
 <details>
-<summary>Crazyflie Custom Neural Network Controller Integration (Write and Flash)</summary>
+<summary>Crazyflie Custom Neural Network Controller Integration (Write, build, and Flash)</summary>
   
 #### Prerequisites
 
 - Crazyflie 2.1
 - A pre-trained neural network model saved as `model_latest.pt` which contains all the necessary neural network data in a dict format.
+- ST Link V2 Debugger
 
 #### Steps
 
@@ -248,9 +249,10 @@ From Changelog section to Overview section.
     // other layers
     ```
 
-3. ** Define customized controller into crazyflie firmware:**
+3. **Define customized controller into crazyflie firmware:**
 
    add you own controller, located at src/modules/src/controller/controller.c:
+   
     ```c
     static ControllerFcns controllerFunctions[] = {
     {.init = 0, .test = 0, .update = 0, .name = "None"}, // Any
@@ -263,10 +265,10 @@ From Changelog section to Overview section.
     #ifdef CONFIG_CONTROLLER_OOT
     {.init = controllerOutOfTreeInit, .test = controllerOutOfTreeTest, .update = controllerOutOfTree, .name = "OutOfTree"},
     #endif
-  };
+    };
     ```
 
-4. ** Build crazyflie firmware and Flash into crazyflie with crazyradio:**
+4. **Build crazyflie firmware and Flash into crazyflie with crazyradio:**
    
     Ⅰ. Turn off crazyflie
    
@@ -289,6 +291,21 @@ From Changelog section to Overview section.
     Set 'current value' in to 5 or higher(where the order you put your controller on menu). 
 
     Cfclient console will print out "CONTROLLER: Using $(name) controller.", switch controller successfully.
+
+
+6. **testing:**
+   
+   To change contorller, modify ros_ws/src/crazyswarm/launch/hover_swarm.launch in Crazyswarm.
+
+    Find below code, and change controller number to you customized controller number:
+
+    ```c
+    stabilizer:
+    estimator: 2 # 1: complementary, 2: kalman
+    controller: 2 # 1: PID, 2: mellinger
+    ```
+
+    Then rerun "Running a Real World Test Script on Crazyflie 2.1 Using Crazyswarm with Vicon system" (Previous section) for test fly.
    
 #### Todo:
 
@@ -303,11 +320,11 @@ From Changelog section to Overview section.
 
 [GitHub - mahaitongdae/crazyflie-firmware at dev-nn](https://github.com/mahaitongdae/crazyflie-firmware/tree/dev-nn)
 
-[build and flash](https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/building-and-flashing/build/)
+[Build and flash from Bitcraze](https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/building-and-flashing/build/)
 
-[flash in crazyswarm](https://blog.csdn.net/zeye5731/article/details/109293157)
+[Flash in crazyswarm from CSDN](https://blog.csdn.net/zeye5731/article/details/109293157)
 
-[bicrazy official add controller and estimator](https://www.bitcraze.io/2023/02/adding-an-estimator-or-controller/)
+[Bicraze official add controller and estimator](https://www.bitcraze.io/2023/02/adding-an-estimator-or-controller/)
 
 </details>
 

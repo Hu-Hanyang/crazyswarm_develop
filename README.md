@@ -294,12 +294,12 @@ From Changelog section to Overview section.
 
 5. **Debugging**
 
-  Following the debugging part of the tutorial(Linux): [Openocd_gdb_debugging](https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/development/openocd_gdb_debugging/)
+    Following the debugging part of the tutorial(Linux): [Openocd_gdb_debugging](https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/development/openocd_gdb_debugging/)
 
 
 6. **testing:**
    
-   To change contorller, modify ros_ws/src/crazyswarm/launch/hover_swarm.launch in Crazyswarm.
+   To change the contorller, modify ros_ws/src/crazyswarm/launch/hover_swarm.launch in Crazyswarm.
 
     Find below code, and change controller number to you customized controller number:
 
@@ -309,7 +309,7 @@ From Changelog section to Overview section.
     controller: 2 # 1: PID, 2: mellinger
     ```
 
-    Then rerun "Running a Real World Test Script on Crazyflie 2.1 Using Crazyswarm with Vicon system" (Previous section) for test fly.
+    Then rerun "Running a Real World Test Script on Crazyflie 2.1 Using Crazyswarm with Vicon system" (Previous section) for testing fly.
    
 #### Todo:
 

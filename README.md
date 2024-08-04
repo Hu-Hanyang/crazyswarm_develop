@@ -292,6 +292,10 @@ From Changelog section to Overview section.
 
     Cfclient console will print out "CONTROLLER: Using $(name) controller.", switch controller successfully.
 
+5. **Debugging**
+
+  Following the debugging part of the tutorial(Linux): [Openocd_gdb_debugging](https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/development/openocd_gdb_debugging/)
+
 
 6. **testing:**
    
@@ -309,11 +313,11 @@ From Changelog section to Overview section.
    
 #### Todo:
 
-1. Build customized controller in crazyflie-firmware
+1. ~~Build customized controller in crazyflie-firmware~~
 1. ~~Method to set as default controller~~
 2. ~~Method to build firmware~~
 3. ~~Method to flash firmware~~
-4. Verification and testing
+4. ~~Verification and testing~~
 
 
 #### Can use for reference:

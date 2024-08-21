@@ -295,6 +295,8 @@ From Changelog section to Overview section.
 5. **Debugging**
 
     Following the debugging part of the tutorial(Linux): [Openocd_gdb_debugging](https://www.bitcraze.io/documentation/repository/crazyflie-firmware/master/development/openocd_gdb_debugging/)
+    Potential issues: "openocd-gdb timeout error", "RunToMain deprecated" warning in .json file
+    Solution: check your "Cortex-debug" tool version whether it is following the tutorial.
 
 
 6. **testing:**

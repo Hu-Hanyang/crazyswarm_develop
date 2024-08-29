@@ -1,0 +1,50 @@
+from pycrazyswarm import Crazyswarm
+from cflib.crazyflie.log import LogConfig
+import time
+import csv
+
+TAKEOFF_DURATION = 2.5
+HOVER_DURATION = 5.0
+
+def log_data(timestamp, data, logconf):
+    # 打印数据（调试用）
+    print(f'[{logconf.name}] {timestamp}: {data}')
+
+    # 将数据写入CSV文件
+    with open('log_data.csv', 'a') as f:
+        writer = csv.writer(f)
+        writer.writerow([timestamp] + list(data.values()))
+
+def main():
+    swarm = Crazyswarm()
+    timeHelper = swarm.timeHelper
+    cf = swarm.allcfs.crazyflies[0]
+
+    # 配置日志
+    log_config = LogConfig(name='HJPPO2024', period_in_ms=10)  # 10ms记录频率
+    log_config.add_variable('HJPPO2024.in0', 'float')
+    log_config.add_variable('HJPPO2024.in1', 'float')
+    log_config.add_variable('HJPPO2024.in2', 'float')
+    log_config.add_variable('HJPPO2024.in3', 'float')
+    # 根据C代码添加所有需要记录的变量
+    log_config.add_variable('HJPPO2024.inm1', 'float')
+    log_config.add_variable('HJPPO2024.usec_eval', 'uint32_t')
+
+    # 注册日志回调函数
+    log_config.data_received_cb.add_callback(log_data)
+    cf.log.add_config(log_config)
+
+    # 开始记录日志
+    log_config.start()
+
+    # 飞行指令
+    cf.takeoff(targetHeight=1.0, duration=TAKEOFF_DURATION)
+    timeHelper.sleep(TAKEOFF_DURATION + HOVER_DURATION)
+    cf.land(targetHeight=0.04, duration=2.5)
+    timeHelper.sleep(TAKEOFF_DURATION)
+
+    # 停止日志记录
+    log_config.stop()
+
+if __name__ == "__main__":
+    main()

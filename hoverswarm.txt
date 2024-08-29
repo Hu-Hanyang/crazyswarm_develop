@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="joy_dev" default="/dev/input/js0" />
+
+  <!-- Load Crazyflie types and configurations -->
+  <rosparam command="load" file="$(find crazyswarm)/launch/crazyflieTypes.yaml" />
+  <rosparam command="load" file="$(find crazyswarm)/launch/crazyflies.yaml" />
+
+  <node pkg="crazyswarm" type="crazyswarm_server" name="crazyswarm_server" output="screen">
+    <rosparam>
+      # Logging configuration (enable_logging must be set to true to enable logging)
+      genericLogTopics: ["log1"]
+      genericLogTopicFrequencies: [10]  # Logging frequency set to 10Hz
+      genericLogTopic_log1_Variables: [
+        "stateEstimate.x", "stateEstimate.y", "stateEstimate.z",
+        "stateEstimate.roll", "stateEstimate.pitch", "stateEstimate.yaw",
+        "stateEstimate.vx", "stateEstimate.vy", "stateEstimate.vz",
+        "gyro.x", "gyro.y", "gyro.z",
+        "acc.x", "acc.y", "acc.z",
+        "mag.x", "mag.y", "mag.z",
+        "ctrltarget.roll", "ctrltarget.pitch", "ctrltarget.yaw", "ctrltarget.thrust",
+        "motor.m1", "motor.m2", "motor.m3", "motor.m4",
+        "stabilizer.roll", "stabilizer.pitch", "stabilizer.yaw", "stabilizer.thrust",
+        "pm.vbat", "pm.chargeCurrent"
+      ]
+      
+      # Enable logging
+      enable_logging: True
+      enable_logging_pose: True
+
+      # Firmware parameters for all drones (use crazyflieTypes.yaml to set per type, or
+      # allCrazyflies.yaml to set per drone)
+      firmwareParams:
+        commander:
+          enHighLevel: 1
+        stabilizer:
+          estimator: 2 # 1: complementary, 2: kalman
+          controller: 2 # 1: PID, 2: mellinger
+        ring:
+          effect: 16 # 6: double spinner, 7: solid color, 16: packetRate
+          solidBlue: 255 # if set to solid color
+          solidGreen: 0 # if set to solid color
+          solidRed: 0 # if set to solid color
+          headlightEnable: 0
+        locSrv:
+          extPosStdDev: 1e-3
+          extQuatStdDev: 0.5e-1
+        kalman:
+          resetEstimation: 1
+
+      # Tracking configuration
+      motion_capture_type: "vicon" # Options: none, vicon, optitrack, optitrack_closed_source, qualisys, vrpn
+      object_tracking_type: "libobjecttracker" # Options: motionCapture, libobjecttracker
+      send_position_only: False # Set to False to send position+orientation; set to True to send position only
+      motion_capture_host_name: "vicon"
+      # motion_capture_interface_ip: "" # Optional for optitrack with multiple interfaces
+      save_point_clouds: "/dev/null" # Set to a valid path to log mocap point cloud binary file
+      print_latency: False
+      write_csvs: False
+      force_no_cache: False
+      enable_parameters: True
+    </rosparam>
+  </node>
+
+  <!-- Joystick configuration -->
+  <node name="joy" pkg="joy" type="joy_node" output="screen">
+    <param name="dev" value="$(arg joy_dev)" />
+  </node>
+
+  <!-- Crazyflie teleoperation node -->
+  <node pkg="crazyswarm" type="crazyswarm_teleop" name="crazyswarm_teleop" output="screen">
+    <param name="csv_file" value="$(find crazyswarm)/launch/figure8_smooth.csv" />
+    <param name="timescale" value="0.8" />
+  </node>
+
+  <!-- RViz visualization -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find crazyswarm)/launch/test.rviz"/>
+
+  <!-- Optional: Add nodes for plotting or visualizing data -->
+  <!-- Example to plot the velocity values -->
+  <!-- <node pkg="rqt_plot" type="rqt_plot" name="rqt_plot_velocity" args="/cf1/log1/values[3] /cf1/log1/values[4]"/> -->
+</launch>

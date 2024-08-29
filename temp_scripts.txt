@@ -1,13 +1,13 @@
 from pycrazyswarm import Crazyswarm
 from cflib.crazyflie.log import LogConfig
-import time
 import csv
 
 TAKEOFF_DURATION = 2.5
 HOVER_DURATION = 5.0
 
+# 回调函数，用于接收并保存日志数据
 def log_data(timestamp, data, logconf):
-    # 打印数据（调试用）
+    # 打印数据（可选，调试用）
     print(f'[{logconf.name}] {timestamp}: {data}')
 
     # 将数据写入CSV文件
@@ -16,18 +16,34 @@ def log_data(timestamp, data, logconf):
         writer.writerow([timestamp] + list(data.values()))
 
 def main():
+    # 初始化Crazyswarm
     swarm = Crazyswarm()
     timeHelper = swarm.timeHelper
     cf = swarm.allcfs.crazyflies[0]
 
     # 配置日志
-    log_config = LogConfig(name='HJPPO2024', period_in_ms=10)  # 10ms记录频率
-    log_config.add_variable('HJPPO2024.in0', 'float')
-    log_config.add_variable('HJPPO2024.in1', 'float')
-    log_config.add_variable('HJPPO2024.in2', 'float')
-    log_config.add_variable('HJPPO2024.in3', 'float')
-    # 根据C代码添加所有需要记录的变量
-    log_config.add_variable('HJPPO2024.inm1', 'float')
+    log_config = LogConfig(name='HJPPO2024', period_in_ms=10)  # 日志记录频率为10ms
+    
+    # 添加需要记录的变量，完整添加所有state_array的元素
+    log_config.add_variable('HJPPO2024.in0', 'float')  # state_array[0]
+    log_config.add_variable('HJPPO2024.in1', 'float')  # state_array[1]
+    log_config.add_variable('HJPPO2024.in2', 'float')  # state_array[2]
+    log_config.add_variable('HJPPO2024.in3', 'float')  # state_array[3]
+    log_config.add_variable('HJPPO2024.in4', 'float')  # state_array[4]
+    log_config.add_variable('HJPPO2024.in5', 'float')  # state_array[5]
+    log_config.add_variable('HJPPO2024.in6', 'float')  # state_array[6]
+    log_config.add_variable('HJPPO2024.in7', 'float')  # state_array[7]
+    log_config.add_variable('HJPPO2024.in8', 'float')  # state_array[8]
+    log_config.add_variable('HJPPO2024.in9', 'float')  # state_array[9]
+    log_config.add_variable('HJPPO2024.in10', 'float') # state_array[10]
+    log_config.add_variable('HJPPO2024.in11', 'float') # state_array[11]
+    log_config.add_variable('HJPPO2024.in12', 'float') # state_array[12]
+    log_config.add_variable('HJPPO2024.inm1', 'float') # state_array[13]
+    log_config.add_variable('HJPPO2024.inm2', 'float') # state_array[14]
+    log_config.add_variable('HJPPO2024.inm3', 'float') # state_array[15]
+    log_config.add_variable('HJPPO2024.inm4', 'float') # state_array[16]
+
+    # 添加usec_eval，用于记录神经网络计算时间
     log_config.add_variable('HJPPO2024.usec_eval', 'uint32_t')
 
     # 注册日志回调函数
@@ -37,7 +53,7 @@ def main():
     # 开始记录日志
     log_config.start()
 
-    # 飞行指令
+    # 控制Crazyflie飞行
     cf.takeoff(targetHeight=1.0, duration=TAKEOFF_DURATION)
     timeHelper.sleep(TAKEOFF_DURATION + HOVER_DURATION)
     cf.land(targetHeight=0.04, duration=2.5)

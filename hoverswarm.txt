@@ -80,3 +80,34 @@
   <!-- Example to plot the velocity values -->
   <!-- <node pkg="rqt_plot" type="rqt_plot" name="rqt_plot_velocity" args="/cf1/log1/values[3] /cf1/log1/values[4]"/> -->
 </launch>
+
+
+步骤二：查看日志输出
+运行脚本后，你可以通过rostopic命令来检查日志输出。以下是具体的查看步骤：
+
+使用rostopic list查看所有的主题：
+
+运行以下命令可以列出当前ROS环境中的所有主题，找到与你的日志记录相关的主题名：
+
+bash
+复制代码
+rostopic list
+你会看到一个类似于/cf1/log1的主题（cf1代表Crazyflie的ID，如果你有多个Crazyflie，主题名会有所不同），这是你在launch文件中设置的日志主题。
+
+使用rostopic echo查看特定主题的数据：
+
+一旦你找到正确的日志主题，可以使用rostopic echo命令查看具体的日志输出：
+
+bash
+复制代码
+rostopic echo /cf1/log1
+这将会输出主题中包含的所有日志数据，包括你在launch文件中配置的所有参数值。
+
+检查特定变量的值：
+
+如果你想查看特定变量（例如速度或位置数据），可以进一步细化rostopic echo的命令。假设你需要查看stateEstimate.vx的输出，可以使用以下命令：
+
+bash
+复制代码
+rostopic echo /cf1/log1/values[0]  # 根据log配置，调整index
+其中values[0]对应的是genericLogTopic_log1_Variables配置中的第一个变量。你可以根据变量在列表中的顺序调整index，比如values[1]对应第二个变量，以此类推。
